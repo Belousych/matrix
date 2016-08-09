@@ -4,18 +4,44 @@
 <head>
     <meta charset="UTF-8">
     <title>Matrix</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
     <div id="a"></div>
+    <hr>
     <div id="b"></div>
+    <hr>
+    <div id="c"></div>
     <script>
-        function Matrix(rows, columns) {
+        function Matrix(rows, columns, elem) {
             this.rows = rows;
             this.columns = columns;
+            this.elem = elem;
             this.arrState = [];
             this.init = function() {
+                this.render(elem);
+                this.watch();
+            }
+            this.addRow = function() {
+                this.rows++;
+                this.render();
+            }
+            this.delRow = function() {
+                this.rows--;
+                this.render();
+            }
+            this.addColumn = function() {
+                this.columns++;
+                this.render();
+            }
+            this.delColumn = function() {
+                this.columns--;
+                this.render();
+            }
+            this.render = function(elem) {
+                this.elem = elem;
                 var rows = this.rows;
                 var columns = this.columns;
                 var arr = [];
@@ -33,51 +59,43 @@
                 }
                 this.arrState = arr;
 
-
-                var input = document.querySelectorAll('input');
-                document.addEventListener('change', function(){
-                    alert('dfdfdsfdfad');
-                });
-                // for (var i = 0; i < input.length; i++) {
-                //     input[i].addEventListener('input', function(){
-                //
-                //     });
-                // }
-            }
-            this.addRow = function() {
-                this.rows++;
-                this.init();
-            }
-            this.delRow = function() {
-                this.rows--;
-                this.init();
-            }
-            this.addColumns = function() {
-                this.columns++;
-                this.init();
-            }
-            this.delColumns = function() {
-                this.columns--;
-                this.init();
-            }
-            this.render = function(idDomElem) {
-                var elem = document.getElementById(idDomElem);
+                var elem = document.getElementById(this.elem);
                 var html = '<ul class="matrix-list">';
-                for (var i = 0; i < rows; i++) {
-                    for (var j = 0; j < columns; j++) {
-                        html += '<li class="matrix-list__item"><input type="text" value='+ this.arrState[i][j] +' data-row='+ i +' data-col='+j+'></li>'
+                for (var i = 0; i < this.rows; i++) {
+                    for (var j = 0; j < this.columns; j++) {
+                        html += '<li class="matrix-list__item"><input type="text" value=' + this.arrState[i][j] + ' data-row=' + i + ' data-col=' + j + '></li>'
                     }
                     html += '<li class="clear"></li>'
                 }
                 html += '</ul>'
                 elem.innerHTML = html;
             }
+            this.watch = function() {
+                document.getElementById(this.elem).addEventListener('change', function() {
+                    console.log(this);
+                });
+            }
             this.init();
+            // var input = document.querySelectorAll('input');
+            // if (window.addEventListener) {
+            //     document.addEventListener('change', function(){
+            //         alert('dfdfdsfdfad');
+            //     });
+            // } else {
+            //     // var input = document.getElementsByTagName('input');
+            //     //
+            //     // console.log(input);
+            //     for (var i = 0; i < input.length; i++) {
+            //         console.log('dssddd');
+            //         input[i].attachEvent('change', function(){
+            //             alert('IE8');
+            //         });
+            //     }
+            //
+            // }
         }
-        var matrixA = new Matrix(5, 4);
-        matrixA.render('a');
-
-
+        var matrixA = new Matrix(3, 3, 'a');
+        var matrixB = new Matrix(3, 3, 'b');
     </script>
 </body>
 
