@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Matrix</title>
+</head>
+
+<body>
+    <div id="a"></div>
+    <div id="b"></div>
+    <script>
+        function Matrix(rows, columns) {
+            this.rows = rows;
+            this.columns = columns;
+            this.arrState = [];
+            this.init = function() {
+                var rows = this.rows;
+                var columns = this.columns;
+                var arr = [];
+                for (var i = 0; i < columns; i++) {
+                    arr[i] = [];
+                    if (this.arrState[i] == undefined) {
+                        for (var j = 0; j < rows; j++) {
+                            arr[i][j] = 0
+                        }
+                    } else {
+                        for (var j = 0; j < rows; j++) {
+                            this.arrState[i][j] == undefined ? arr[i][j] = 0 : arr[i][j] = this.arrState[i][j]
+                        }
+                    }
+                }
+                this.arrState = arr;
+            }
+            this.addRow = function(){
+                this.rows++;
+                this.init();
+            }
+            this.delRow = function(){
+                this.rows--;
+                this.init();
+            }
+            this.addColumns = function(){
+                this.columns++;
+                this.init();
+            }
+            this.delColumns = function(){
+                this.columns--;
+                this.init();
+            }
+            this.render = function(idDomElem){
+
+            }
+            this.init();
+        }
+        var matrixA = new Matrix(3,4);
+    </script>
+</body>
+
+</html>
