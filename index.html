@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Matrix</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
@@ -18,42 +19,65 @@
                 var rows = this.rows;
                 var columns = this.columns;
                 var arr = [];
-                for (var i = 0; i < columns; i++) {
+                for (var i = 0; i < rows; i++) {
                     arr[i] = [];
                     if (this.arrState[i] == undefined) {
-                        for (var j = 0; j < rows; j++) {
+                        for (var j = 0; j < columns; j++) {
                             arr[i][j] = 0
                         }
                     } else {
-                        for (var j = 0; j < rows; j++) {
+                        for (var j = 0; j < columns; j++) {
                             this.arrState[i][j] == undefined ? arr[i][j] = 0 : arr[i][j] = this.arrState[i][j]
                         }
                     }
                 }
                 this.arrState = arr;
+
+
+                var input = document.querySelectorAll('input');
+                document.addEventListener('change', function(){
+                    alert('dfdfdsfdfad');
+                });
+                // for (var i = 0; i < input.length; i++) {
+                //     input[i].addEventListener('input', function(){
+                //
+                //     });
+                // }
             }
-            this.addRow = function(){
+            this.addRow = function() {
                 this.rows++;
                 this.init();
             }
-            this.delRow = function(){
+            this.delRow = function() {
                 this.rows--;
                 this.init();
             }
-            this.addColumns = function(){
+            this.addColumns = function() {
                 this.columns++;
                 this.init();
             }
-            this.delColumns = function(){
+            this.delColumns = function() {
                 this.columns--;
                 this.init();
             }
-            this.render = function(idDomElem){
-
+            this.render = function(idDomElem) {
+                var elem = document.getElementById(idDomElem);
+                var html = '<ul class="matrix-list">';
+                for (var i = 0; i < rows; i++) {
+                    for (var j = 0; j < columns; j++) {
+                        html += '<li class="matrix-list__item"><input type="text" value='+ this.arrState[i][j] +' data-row='+ i +' data-col='+j+'></li>'
+                    }
+                    html += '<li class="clear"></li>'
+                }
+                html += '</ul>'
+                elem.innerHTML = html;
             }
             this.init();
         }
-        var matrixA = new Matrix(3,4);
+        var matrixA = new Matrix(5, 4);
+        matrixA.render('a');
+
+
     </script>
 </body>
 
