@@ -57,7 +57,7 @@
                 this.render();
             }
             this.render = function(elem) {
-                this.elem = elem;
+
                 var rows = this.rows;
                 var columns = this.columns;
                 var arr = [];
@@ -75,7 +75,7 @@
                 }
                 this.arrState = arr;
 
-                var elem = document.getElementById(this.elem);
+                var elem = document.getElementById(elem);
                 var html = '<ul class="matrix-list">';
                 for (var i = 0; i < this.rows; i++) {
                     for (var j = 0; j < this.columns; j++) {
@@ -87,7 +87,8 @@
                 elem.innerHTML = html;
             }
             this.watch = function() {
-                var elem = this.elem;
+                var self = this;
+                var elem = document.getElementById(this.elem);
                 var input = document.querySelectorAll('input');
                 for (var i = 0; i < input.length; i++) {
                     input[i].onkeypress = function(e) {
@@ -107,16 +108,19 @@
                         }
                     }
                 }
-                document.addEventListener('change', function(e) {
+                elem.addEventListener('input', function(e) {
                     var target = e.target || event.target;
-                    var val = target.value;
-                    target.value = Number(val);
+                    var val = Number(target.value);
+                    var data = target.dataset;
+                    target.value = val;
+                    self.arrState[data.row][data.col] = val;
                 });
             }
             this.init();
         }
         var matrixA = new Matrix(3, 3, 'a');
         var matrixB = new Matrix(3, 3, 'b');
+
     </script>
 </body>
 
