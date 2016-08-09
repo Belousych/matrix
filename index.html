@@ -15,13 +15,29 @@
     <hr>
     <div id="c"></div>
     <script>
+        function getChar(event) {
+            if (event.which == null) {
+                if (event.keyCode < 32) return null;
+                return String.fromCharCode(event.keyCode) // IE
+            }
+
+            if (event.which != 0 && event.charCode != 0) {
+                if (event.which < 32) return null;
+                return String.fromCharCode(event.which) // остальные
+            }
+
+            return null; // специальная клавиша
+        }
+
         function Matrix(rows, columns, elem) {
             this.rows = rows;
             this.columns = columns;
             this.elem = elem;
             this.arrState = [];
             this.init = function() {
-                this.render(elem);
+                if (elem) {
+                    this.render(elem);
+                }
                 this.watch();
             }
             this.addRow = function() {
@@ -71,28 +87,33 @@
                 elem.innerHTML = html;
             }
             this.watch = function() {
-                document.getElementById(this.elem).addEventListener('change', function() {
-                    console.log(this);
+                var elem = this.elem;
+                var input = document.querySelectorAll('input');
+                for (var i = 0; i < input.length; i++) {
+                    input[i].onkeypress = function(e) {
+                        e = e || event;
+
+                        if (e.ctrlKey || e.altKey || e.metaKey) return;
+
+                        var chr = getChar(e);
+
+                        // с null надо осторожно в неравенствах,
+                        // т.к. например null >= '0' => true
+                        // на всякий случай лучше вынести проверку chr == null отдельно
+                        if (chr == null) return;
+
+                        if (chr < '0' || chr > '9') {
+                            return false;
+                        }
+                    }
+                }
+                document.addEventListener('change', function(e) {
+                    var target = e.target || event.target;
+                    var val = target.value;
+                    target.value = Number(val);
                 });
             }
             this.init();
-            // var input = document.querySelectorAll('input');
-            // if (window.addEventListener) {
-            //     document.addEventListener('change', function(){
-            //         alert('dfdfdsfdfad');
-            //     });
-            // } else {
-            //     // var input = document.getElementsByTagName('input');
-            //     //
-            //     // console.log(input);
-            //     for (var i = 0; i < input.length; i++) {
-            //         console.log('dssddd');
-            //         input[i].attachEvent('change', function(){
-            //             alert('IE8');
-            //         });
-            //     }
-            //
-            // }
         }
         var matrixA = new Matrix(3, 3, 'a');
         var matrixB = new Matrix(3, 3, 'b');
