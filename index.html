@@ -29,14 +29,14 @@
             return null; // специальная клавиша
         }
 
-        function Matrix(rows, columns, elem) {
-            this.rows = rows;
+        function Matrix(rows, columns, elem) { // Конструктор матриц
+            this.rows = rows; //
             this.columns = columns;
             this.elem = elem;
             this.arrState = [];
             this.init = function() {
                 if (elem) {
-                    this.render(elem);
+                    this.render(this.elem);
                 }
                 this.watch();
             }
@@ -57,7 +57,11 @@
                 this.render();
             }
             this.render = function(elem) {
-
+                if (elem) {
+                    this.elem = elem;
+                } else {
+                    elem = this.elem;
+                }
                 var rows = this.rows;
                 var columns = this.columns;
                 var arr = [];
@@ -76,9 +80,10 @@
                 this.arrState = arr;
 
                 var elem = document.getElementById(elem);
+
                 var html = '<ul class="matrix-list">';
-                for (var i = 0; i < this.rows; i++) {
-                    for (var j = 0; j < this.columns; j++) {
+                for (var i = 0; i < rows; i++) {
+                    for (var j = 0; j < columns; j++) {
                         html += '<li class="matrix-list__item"><input type="text" value=' + this.arrState[i][j] + ' data-row=' + i + ' data-col=' + j + '></li>'
                     }
                     html += '<li class="clear"></li>'
@@ -119,6 +124,7 @@
             this.init();
         }
         var matrixA = new Matrix(3, 3, 'a');
+
         var matrixB = new Matrix(3, 3, 'b');
 
     </script>
