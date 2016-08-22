@@ -139,6 +139,14 @@ function Matrix(rows, columns, elem, name, disabled) { // Конструктор
     }
     this.init();
 }
+
+function multiplicationMatrix(matrixA, matrixB) {
+
+}
+
 var matrixA = new Matrix(3, 5, 'matrixA', 'a');
 var matrixB = new Matrix(5, 4, 'matrixB', 'b');
 var matrixC = new Matrix(matrixA.rows, matrixB.columns, 'matrixC', 'c', false);
+
+
+multiplicationMatrix(matrixA, matrixB);
