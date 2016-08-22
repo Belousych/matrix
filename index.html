@@ -9,125 +9,21 @@
 </head>
 
 <body>
-    <div id="a"></div>
+    <div class="container">
+        <div class="container__left">
+            
+        </div>
+        <div class="container__content">
+
+        </div>
+    </div>
+    <div id="matrixA"></div>
     <hr>
-    <div id="b"></div>
+    <div id="matrixB"></div>
     <hr>
-    <div id="c"></div>
-    <script>
-        function getChar(event) {
-            if (event.which == null) {
-                if (event.keyCode < 32) return null;
-                return String.fromCharCode(event.keyCode) // IE
-            }
+    <div id="matrixC"></div>
 
-            if (event.which != 0 && event.charCode != 0) {
-                if (event.which < 32) return null;
-                return String.fromCharCode(event.which) // остальные
-            }
-
-            return null; // специальная клавиша
-        }
-
-        function Matrix(rows, columns, elem) { // Конструктор матриц
-            this.rows = rows; //
-            this.columns = columns;
-            this.elem = elem;
-            this.arrState = [];
-            this.init = function() {
-                if (elem) {
-                    this.render(this.elem);
-                }
-                this.watch();
-            }
-            this.addRow = function() {
-                this.rows++;
-                this.render();
-            }
-            this.delRow = function() {
-                this.rows--;
-                this.render();
-            }
-            this.addColumn = function() {
-                this.columns++;
-                this.render();
-            }
-            this.delColumn = function() {
-                this.columns--;
-                this.render();
-            }
-            this.render = function(elem) {
-                if (elem) {
-                    this.elem = elem;
-                } else {
-                    elem = this.elem;
-                }
-                var rows = this.rows;
-                var columns = this.columns;
-                var arr = [];
-                for (var i = 0; i < rows; i++) {
-                    arr[i] = [];
-                    if (this.arrState[i] == undefined) {
-                        for (var j = 0; j < columns; j++) {
-                            arr[i][j] = 0
-                        }
-                    } else {
-                        for (var j = 0; j < columns; j++) {
-                            this.arrState[i][j] == undefined ? arr[i][j] = 0 : arr[i][j] = this.arrState[i][j]
-                        }
-                    }
-                }
-                this.arrState = arr;
-
-                var elem = document.getElementById(elem);
-
-                var html = '<ul class="matrix-list">';
-                for (var i = 0; i < rows; i++) {
-                    for (var j = 0; j < columns; j++) {
-                        html += '<li class="matrix-list__item"><input type="text" value=' + this.arrState[i][j] + ' data-row=' + i + ' data-col=' + j + '></li>'
-                    }
-                    html += '<li class="clear"></li>'
-                }
-                html += '</ul>'
-                elem.innerHTML = html;
-            }
-            this.watch = function() {
-                var self = this;
-                var elem = document.getElementById(this.elem);
-                var input = document.querySelectorAll('input');
-                for (var i = 0; i < input.length; i++) {
-                    input[i].onkeypress = function(e) {
-                        e = e || event;
-
-                        if (e.ctrlKey || e.altKey || e.metaKey) return;
-
-                        var chr = getChar(e);
-
-                        // с null надо осторожно в неравенствах,
-                        // т.к. например null >= '0' => true
-                        // на всякий случай лучше вынести проверку chr == null отдельно
-                        if (chr == null) return;
-
-                        if (chr < '0' || chr > '9') {
-                            return false;
-                        }
-                    }
-                }
-                elem.addEventListener('input', function(e) {
-                    var target = e.target || event.target;
-                    var val = Number(target.value);
-                    var data = target.dataset;
-                    target.value = val;
-                    self.arrState[data.row][data.col] = val;
-                });
-            }
-            this.init();
-        }
-        var matrixA = new Matrix(3, 3, 'a');
-
-        var matrixB = new Matrix(3, 3, 'b');
-
-    </script>
+    <script src="matrix.js"></script>
 </body>
 
 </html>
