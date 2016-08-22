@@ -76,8 +76,8 @@ function Matrix(rows, columns, elem, name, disabled) { // Конструктор
         var html = '<ul class="matrix-list">';
         for (var i = 0; i < rows; i++) {
             for (var j = 0; j < columns; j++) {
-                var placeholderI = i+1;
-                var placeholderJ = j+1;
+                var placeholderI = i + 1;
+                var placeholderJ = j + 1;
                 html += '<li class="matrix-list__item"><input type="text" value="' + this.arrState[i][j] + '" data-row=' + i + ' data-col=' + j + ' placeholder="' + this.name + placeholderI + ',' + placeholderJ + '" ' + this.disabled + '></li>'
             }
             html += '<li class="clear"></li>'
@@ -88,28 +88,50 @@ function Matrix(rows, columns, elem, name, disabled) { // Конструктор
     this.watch = function() {
         var self = this;
         var elem = document.getElementById(this.elem);
-        var input = document.querySelectorAll('input');
-        for (var i = 0; i < input.length; i++) {
-            input[i].onkeypress = function(e) {
-                e = e || event;
-
-                if (e.ctrlKey || e.altKey || e.metaKey) return;
-
-                var chr = getChar(e);
-
-                // с null надо осторожно в неравенствах,
-                // т.к. например null >= '0' => true
-                // на всякий случай лучше вынести проверку chr == null отдельно
-                if (chr == null) return;
-
-                if (chr < '0' || chr > '9') {
-                    return false;
-                }
-            }
-        }
+        // var input = document.querySelectorAll('input');
+        // for (var i = 0; i < input.length; i++) {
+        //     input[i].onkeypress = function(e) {
+        //         alert('sdfsd');
+        //         e = e || event;
+        //
+        //         if (e.ctrlKey || e.altKey || e.metaKey) return;
+        //
+        //         var chr = getChar(e);
+        //         // с null надо осторожно в неравенствах,
+        //         // т.к. например null >= '0' => true
+        //         // на всякий случай лучше вынести проверку chr == null отдельно
+        //         if (chr == null) return;
+        //
+        //         if (chr < '0' || chr > '9') {
+        //             return false;
+        //         }
+        //     }
+        // }
+        // elem.addEventListener('keypress', function(e) {
+        //     e = e || event;
+        //
+        //     if (e.ctrlKey || e.altKey || e.metaKey) return;
+        //
+        //     var chr = getChar(e);
+        //
+        //     if (chr == null) return;
+        //
+        //     if (chr < '0' || chr > '9') {
+        //         return false;
+        //     } else {
+        //         var target = e.target || event.target;
+        //         var val = Number(target.value);
+        //         var data = target.dataset;
+        //         target.value = val;
+        //         self.arrState[data.row][data.col] = val;
+        //     }
+        // });
         elem.addEventListener('input', function(e) {
             var target = e.target || event.target;
             var val = Number(target.value);
+            if (isNaN(val)) {
+                val = '';
+            }
             var data = target.dataset;
             target.value = val;
             self.arrState[data.row][data.col] = val;
