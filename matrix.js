@@ -141,7 +141,31 @@ function Matrix(rows, columns, elem, name, disabled) { // Конструктор
 }
 
 function multiplicationMatrix(matrixA, matrixB) {
+    $body = document.querySelector('body');
+    matrixC.rows = matrixA.rows;
+    matrixC.columns = matrixB.columns;
 
+    var rowsA = matrixA.rows;
+    var colsA = matrixA.columns;
+    var rowsB = matrixB.rows;
+    var colsB = matrixB.columns;
+
+    var arr = matrixC.arrState;
+    if (colsA != rowsB) {
+        $body.classList.add('error');
+        return false;
+    } else {
+        for (var i = 0; i < rowsA; i++) arr[i] = [];
+        for (var k = 0; k < colsB; k++) {
+            for (var i = 0; i < rowsA; i++) {
+                var t = 0;
+                for (var j = 0; j < rowsB; j++) t += matrixA.arrState[i][j] *  matrixB.arrState[j][k];
+                arr[i][k] = t;
+            }
+        }
+        matrixC.arrState = arr;
+        matrixC.render();
+    }
 }
 
 var matrixA = new Matrix(3, 5, 'matrixA', 'a');
